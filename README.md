@@ -125,9 +125,10 @@ Sample the runtime utilization of the CPU. This is the only call that advances t
 
 ```js
 usage = {
-  compute, // Fraction of compute capacity in use, in [0, 1], averaged
-  // across all logical cores since the previous sample, or
-  // `undefined` if compute utilization could not be determined.
+  // Fraction of compute capacity in use, in [0, 1], averaged across all
+  // logical cores since the previous sample, or `undefined` if compute
+  // utilization could not be determined.
+  compute,
   memoryUsed, // Physical memory currently in use, in bytes
   memoryTotal // Total installed physical memory, in bytes
 }
