@@ -59,8 +59,8 @@ interface CPU {
   logicalCores: number
   performanceCores: number
   efficiencyCores: number
-  frequency: number
-  cacheLine: number
+  frequency: number | undefined
+  cacheLine: number | undefined
   memory: number
 }
 
@@ -85,9 +85,9 @@ declare class CPUInfo {
 
   coreType(index: number): CoreType
 
-  coreFrequency(index: number): number
+  coreFrequency(index: number): number | undefined
 
-  coreCache(index: number, level: CacheLevel): number
+  coreCache(index: number, level: CacheLevel): number | undefined
 
   destroy(): void
 

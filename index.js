@@ -53,7 +53,9 @@ module.exports = exports = class CPUInfo {
 
     validateIndex(index, this.coreCount())
 
-    return binding.coreFrequency(this, index)
+    const frequency = binding.coreFrequency(this, index)
+
+    return frequency === 0 ? undefined : frequency
   }
 
   coreCache(index, level) {
@@ -63,7 +65,9 @@ module.exports = exports = class CPUInfo {
 
     validateInteger(level, 'Cache level')
 
-    return binding.coreCache(this, index, level)
+    const size = binding.coreCache(this, index, level)
+
+    return size === 0 ? undefined : size
   }
 
   destroy() {
@@ -89,11 +93,14 @@ exports.CPUInfo = exports
 
 exports.constants = constants
 
-// The library reports an unknown string as empty; surface those as `null` so
-// consumers can distinguish "unknown" from a genuine empty value.
+// The library reports unknown strings as empty and unknown numbers as `0`.
+// Surface these as `null` and `undefined` respectively so consumers can
+// distinguish "unknown" from a genuine empty or zero value.
 function normalizeCpu(cpu) {
   if (cpu.name === '') cpu.name = null
   if (cpu.vendor === '') cpu.vendor = null
+  if (cpu.frequency === 0) cpu.frequency = undefined
+  if (cpu.cacheLine === 0) cpu.cacheLine = undefined
 
   return cpu
 }

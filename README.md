@@ -61,8 +61,8 @@ cpu = {
   logicalCores, // The number of logical cores, i.e. hardware threads
   performanceCores, // The number of physical performance ('P') cores, or 0
   efficiencyCores, // The number of physical efficiency ('E') cores, or 0
-  frequency, // The nominal frequency in hertz, or 0 if unknown
-  cacheLine, // The size of a cache line in bytes, or 0 if unknown
+  frequency, // The nominal frequency in hertz, or `undefined` if unknown
+  cacheLine, // The size of a cache line in bytes, or `undefined` if unknown
   memory // The total installed physical memory in bytes
 }
 ```
@@ -152,11 +152,11 @@ Get the role the logical core at `index` plays on a hybrid CPU, in the range `[0
 
 #### `const frequency = info.coreFrequency(index)`
 
-Get the nominal maximum frequency, in hertz, of the logical core at `index`, in the range `[0, info.coreCount())`. On a hybrid CPU the performance and efficiency cores typically differ. Returns `0` when the per-core frequency is not reported, such as on Apple silicon. Throws a `RangeError` if `index` is out of range.
+Get the nominal maximum frequency, in hertz, of the logical core at `index`, in the range `[0, info.coreCount())`. On a hybrid CPU the performance and efficiency cores typically differ. Returns `undefined` when the per-core frequency is not reported, such as on Apple silicon. Throws a `RangeError` if `index` is out of range.
 
 #### `const size = info.coreCache(index, level)`
 
-Get the size, in bytes, of the given cache `level` for the logical core at `index`, in the range `[0, info.coreCount())`. `level` is a value of `constants.cache`. The two level 1 caches are distinguished as the data and instruction caches; the level 2 and level 3 caches are unified. Returns `0` when the cache is absent or could not be determined. Throws a `RangeError` if `index` is out of range.
+Get the size, in bytes, of the given cache `level` for the logical core at `index`, in the range `[0, info.coreCount())`. `level` is a value of `constants.cache`. The two level 1 caches are distinguished as the data and instruction caches; the level 2 and level 3 caches are unified. Returns `undefined` when the cache is absent or could not be determined. Throws a `RangeError` if `index` is out of range.
 
 #### `CPUInfo.constants`
 

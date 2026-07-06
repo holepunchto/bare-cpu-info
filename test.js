@@ -22,8 +22,8 @@ test('query', (t) => {
 
   t.is(typeof cpu.performanceCores, 'number')
   t.is(typeof cpu.efficiencyCores, 'number')
-  t.is(typeof cpu.frequency, 'number')
-  t.is(typeof cpu.cacheLine, 'number')
+  t.ok(cpu.frequency === undefined || typeof cpu.frequency === 'number', 'frequency')
+  t.ok(cpu.cacheLine === undefined || typeof cpu.cacheLine === 'number', 'cacheLine')
   t.ok(cpu.memory > 0, 'has installed memory')
   t.is(typeof cpu.features, 'object')
 })
@@ -88,10 +88,20 @@ test('core count and per-core usage', (t) => {
 
     t.ok(Object.values(constants.coreType).includes(type), `core ${i} has a known type`)
 
-    t.is(typeof info.coreFrequency(i), 'number', `core ${i} has a frequency`)
+    const frequency = info.coreFrequency(i)
+
+    t.ok(
+      frequency === undefined || typeof frequency === 'number',
+      `core ${i} frequency is a number or undefined`
+    )
 
     for (const level of Object.values(constants.cache)) {
-      t.ok(info.coreCache(i, level) >= 0, `core ${i} cache level ${level} is non-negative`)
+      const size = info.coreCache(i, level)
+
+      t.ok(
+        size === undefined || size > 0,
+        `core ${i} cache level ${level} is positive or undefined`
+      )
     }
   }
 })
@@ -100,7 +110,9 @@ test('coreCache accepts cache-level constants', (t) => {
   using info = new CPUInfo()
 
   for (const level of Object.values(constants.cache)) {
-    t.ok(info.coreCache(0, level) >= 0, `cache level ${level} is non-negative`)
+    const size = info.coreCache(0, level)
+
+    t.ok(size === undefined || size > 0, `cache level ${level} is positive or undefined`)
   }
 })
 
