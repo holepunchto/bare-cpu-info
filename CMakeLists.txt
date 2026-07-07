@@ -5,7 +5,7 @@ find_package(cmake-fetch REQUIRED PATHS node_modules/cmake-fetch)
 
 project(bare_cpu_info C)
 
-fetch_package("github:holepunchto/libcpuinfo#b09f12b")
+fetch_package("github:holepunchto/libcpuinfo#1cf59e5")
 
 add_bare_module(bare_cpu_info)
 
