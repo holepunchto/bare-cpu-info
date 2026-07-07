@@ -1,6 +1,6 @@
 {
   "name": "bare-cpu-info",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "CPU information and utilization for Bare",
   "exports": {
     "./package": "./package.json",
