@@ -9,7 +9,11 @@ test('query', (t) => {
 
   t.comment(`${cpu.name} (${cpu.vendor}), ${cpu.arch}`)
   t.comment(`${cpu.physicalCores} physical, ${cpu.logicalCores} logical`)
-  t.comment(`${(cpu.memory / (1024 * 1024 * 1024)).toFixed(1)} GiB`)
+  t.comment(
+    cpu.memory === undefined
+      ? 'memory unknown'
+      : `${(cpu.memory / (1024 * 1024 * 1024)).toFixed(1)} GiB`
+  )
 
   t.ok(cpu.name === null || typeof cpu.name === 'string', 'name is a string or null')
   t.ok(cpu.vendor === null || typeof cpu.vendor === 'string', 'vendor is a string or null')
@@ -24,7 +28,7 @@ test('query', (t) => {
   t.is(typeof cpu.efficiencyCores, 'number')
   t.ok(cpu.frequency === undefined || typeof cpu.frequency === 'number', 'frequency')
   t.ok(cpu.cacheLine === undefined || typeof cpu.cacheLine === 'number', 'cacheLine')
-  t.ok(cpu.memory > 0, 'has installed memory')
+  t.ok(cpu.memory === undefined || cpu.memory > 0, 'installed memory is positive or undefined')
   t.is(typeof cpu.features, 'object')
 })
 
@@ -55,8 +59,14 @@ test('sample', (t) => {
 
   t.is(typeof usage.compute, 'number', 'compute is a number')
   t.ok(usage.compute >= 0 && usage.compute <= 1, 'compute is in [0, 1]')
-  t.ok(usage.memoryUsed >= 0, 'memory used is non-negative')
-  t.ok(usage.memoryTotal > 0, 'memory total is positive')
+  t.ok(
+    usage.memoryUsed === undefined || usage.memoryUsed >= 0,
+    'memory used is non-negative or undefined'
+  )
+  t.ok(
+    usage.memoryTotal === undefined || usage.memoryTotal > 0,
+    'memory total is positive or undefined'
+  )
 })
 
 test('core count and per-core usage', (t) => {

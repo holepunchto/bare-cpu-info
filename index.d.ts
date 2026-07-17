@@ -61,13 +61,13 @@ interface CPU {
   efficiencyCores: number
   frequency: number | undefined
   cacheLine: number | undefined
-  memory: number
+  memory: number | undefined
 }
 
 interface Usage {
   compute: number | undefined
-  memoryUsed: number
-  memoryTotal: number
+  memoryUsed: number | undefined
+  memoryTotal: number | undefined
 }
 
 declare class CPUInfo {
