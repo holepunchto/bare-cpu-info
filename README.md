@@ -63,7 +63,7 @@ cpu = {
   efficiencyCores, // The number of physical efficiency ('E') cores, or 0
   frequency, // The nominal frequency in hertz, or `undefined` if unknown
   cacheLine, // The size of a cache line in bytes, or `undefined` if unknown
-  memory // The total installed physical memory in bytes
+  memory // The total installed physical memory in bytes, or `undefined` if unknown
 }
 ```
 
@@ -129,8 +129,8 @@ usage = {
   // logical cores since the previous sample, or `undefined` if compute
   // utilization could not be determined.
   compute,
-  memoryUsed, // Physical memory currently in use, in bytes
-  memoryTotal // Total installed physical memory, in bytes
+  memoryUsed, // Physical memory currently in use, in bytes, or `undefined` if unknown
+  memoryTotal // Total installed physical memory, in bytes, or `undefined` if unknown
 }
 ```
 

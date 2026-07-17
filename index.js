@@ -93,14 +93,17 @@ exports.CPUInfo = exports
 
 exports.constants = constants
 
-// The library reports unknown strings as empty and unknown numbers as `0`.
-// Surface these as `null` and `undefined` respectively so consumers can
-// distinguish "unknown" from a genuine empty or zero value.
+// The library reports unknown strings as empty and unknown numbers with a
+// sentinel: `0` for frequency and cache sizes, and a negative value for memory,
+// which has a genuine zero. Surface all of these as `null` for strings and
+// `undefined` for numbers so consumers can distinguish "unknown" from a real
+// empty or zero value.
 function normalizeCpu(cpu) {
   if (cpu.name === '') cpu.name = null
   if (cpu.vendor === '') cpu.vendor = null
   if (cpu.frequency === 0) cpu.frequency = undefined
   if (cpu.cacheLine === 0) cpu.cacheLine = undefined
+  if (cpu.memory < 0) cpu.memory = undefined
 
   return cpu
 }
@@ -109,6 +112,8 @@ function normalizeCpu(cpu) {
 // as `undefined` so consumers can distinguish "unsupported" from a genuine `0`.
 function normalizeUsage(usage) {
   if (usage.compute < 0) usage.compute = undefined
+  if (usage.memoryUsed < 0) usage.memoryUsed = undefined
+  if (usage.memoryTotal < 0) usage.memoryTotal = undefined
 
   return usage
 }
